@@ -11,8 +11,103 @@
         <input id="query" type="search" placeholder="Search your color">
     </div>
 
-    <div id="color-space">
+    <div class="colorspace-values">
+        <table class="colorspave-values_columns">
+            <tbody>
+                <tr>
+                    <td rowspan="2"></td>
+                    <td class="colorspace_label">R</td>
+                    <td class="colorspace_label">G</td>
+                    <td class="colorspace_label colorspace_label_gap">B</td>
 
+                    <td class="colorspace_label">H°</td>
+                    <td class="colorspace_label">
+                        S
+                        <span class="colorspace_sup">%</span>
+                    </td>
+                    <td class="colorspace_label">
+                        V
+                        <span class="colorspace_sup">%</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="colorspace_rgbhsv colorspace_rgbhsb_r">
+                        <input maxlength="3" size="3" max="255">
+                    </td>
+                    <td class="colorspace_rgbhsv colorspace_rgbhsb_g">
+                        <input maxlength="3" size="3" max="255">
+                    </td>
+                    <td class="colorspace_rgbhsv colorspace_rgbhsb_b colorspace_grbhsv_gap">
+                        <input maxlength="3" size="3" max="255">
+                    </td>
+
+                    <td class="colorspace_rgbhsv colorspace_rgbhsb_h">
+                        <input maxlength="3" size="3" max="255">
+                    </td>
+                    <td class="colorspace_rgbhsv colorspace_rgbhsb_s">
+                        <input maxlength="3" size="3" max="255">
+                    </td>
+                    <td class="colorspace_rgbhsv colorspace_rgbhsb_v">
+                        <input maxlength="3" size="3" max="255">
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="color-space">
+        <table class="colorspace-columns">
+            <tbody>
+                <tr>
+                    <td class="colorspace-list">
+                        <div class="colorspace-border">
+                            <div class="colorspace-barrel">
+                                <a class="colorspace-arrow colorspace-arrow_up" href="#"></a>
+                                <a class="colorspace-arrow colorspace-arrow_down" href="#"></a>
+                                <i class="colorspace-barrel_l"></i>
+                                <i class="colorspace-barrel_fade"></i>
+                                <i class="colorspace-barrel_r"></i>
+                                <table class="colorsapce-barrel_columns">
+                                    <tbody>
+                                        <tr class="colorspace-row-x">
+                                            <td class="colorspace-barrel-x" style="background-color: rgb(183, 65, 14); color: rgb(255, 255, 255);">Bla-bla-1</td>
+                                        </tr>
+                                        <tr class="colorspace-row-x1">
+                                            <td class="colorspace-barrel-x1">Bla-bla-2</td>
+                                        </tr>
+                                        <tr class="colorspace-row-xx1">
+                                            <td class="colorspace-barrel-xx1">Bla-bla-3</td>
+                                        </tr>
+                                        <tr class="colorspace-row-x1">
+                                            <td class="colorspace-barrel-x1">Bla-bla-4</td>
+                                        </tr>
+                                        <tr class="colorspace-row-x">
+                                            <td class="colorspace-barrel-x">Bla-bla-5</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <i class="colorspace-shadow"></i>
+                        </div>
+                    </td>
+                    <td class="colorspace-c">
+                        <div class="colorspace-picker">
+                            <div class="colorspace-picker_ring">
+                                <i class="colorspace-picker_marker"></i>
+                            </div>
+                            <div class="colorspace-picker_square" style="background-color: rgb(255, 115, 0);">
+                                <div class="colorspace-picker_square_mask">
+                                    <i class="colorspace-picker_marker"></i>
+                                </div>
+                            </div>
+
+                        </div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
     </div>
 
     <div id="saved-color-section">

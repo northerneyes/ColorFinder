@@ -1,63 +1,202 @@
+
+/*Common style*/
 body{
     font-family: 'Segoe UI', Tahoma, sans-serif;
     font-size: 75%;
 }
 
-.tabs-display
-{
-    padding: 0;
-    max-width: 300px;
+/*Main Columns*/
+.colorspace-columns{
+    border-collapse: collapse;
 }
 
-.entry
-{
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    overflow: auto;
+/*Finder*/
+
+/*List Control*/
+.colorspace-list{
+    padding-right: 25px;
 }
 
-.entry .title {
-    -webkit-padding-start: 20px;
-    background-position-y: 3px;
-    background-repeat: no-repeat;
+.colorspace-list, .colorspace-c{
+    vertical-align: top;
 }
 
-.entry .title > a {
-    color: rgb(48, 57, 66);
-    text-decoration: none;
+.colorspace-border{
+    position: relative;
+    padding: 10px 5px 0 15px;
+    margin: -1px -6px -1px -16px;
+    border: 1px solid #fff;
 }
 
-.entry .title {
-    -webkit-box-flex: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    /*display: inline-block;*/
+.colorspace-barrel{
+    position: relative;
+    height: 100px;
+    margin: 0 0 0 -11px;
 }
 
-#tabs-list
-{
+.colorspace-arrow{
+    position: absolute;
+    right: -25px;
+    width: 18px;
+    height: 55px;
+    outline: none;
+    background: #fff url(arrows.png) no-repeat 0 0;
+}
+
+.colorspace-arrow_up{
+    top: 0;
+}
+
+.colorspace-arrow_down{
+    bottom: 0;
+    background-position: 0 100%;
+}
+
+.colorspace-arrow_down:hover{
+    background-position: 100% 100%;
+}
+
+.colorspace-arrow_up:hover{
+    background-position: 100% 0;
+}
+
+
+
+.colorspace-barrel_l{
+    left: 0;
+    background: url(left.png) no-repeat 0 0;
+}
+
+.colorspace-barrel_r{
+    right: 0;
+    background: url(right.png) no-repeat 0 0;
+}
+
+.colorspace-barrel_l, .colorspace-barrel_r{
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    width: 11px;
+    height: 100px;
+
+}
+.colorspace-barrel_fade {
+    position: absolute;
+    z-index: 1;
+    top: 0;
     width: 100%;
-    /*max-width: 200px;*/
+    height: 100px;
+    cursor: pointer;
+    background: url(fade.png) repeat-x 0 0;
 }
 
-.entry-box {
-    -webkit-box-orient: horizontal;
-    cursor: default;
-    display: -webkit-box;
-    float: left;
-    line-height: 1.75em;
-    margin-bottom: 6px;
-    max-width: 100%;
-    overflow: hidden;
-    padding-bottom: 1px;
+.colorsapce-barrel_columns{
+    width: 250px;
+    border-collapse: collapse;
 }
 
-.entry .time {
-    color: rgb(151, 156, 160);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 90px;
+.colorspace-barrel-x{
+    font: 9px 'Segoe UI', Tahoma,sans-serif;
+    height: 15px;
+    padding: 0 0 0 23px;
+}
+
+.colorspace-barrel-x1, .colorspace-barrel-x1, .colorspace-barrel-xx1
+{
+    width: 250px;
+    cursor: pointer;
+}
+
+.colorspace-barrel-x1{
+    font-size: 11px;
+    height: 15px;
+    padding: 0 0 0 15px;
+}
+
+.colorspace-barrel-xx1{
+    font-size: 13px;
+    font-weight: bold;
+    height: 30px;
+    padding: 0 0 0 10px;
+}
+
+.colorspace-shadow{
+    display: block;
+    height: 9px;
+    background: #fff url(shadow.png) no-repeat 0 0;
+}
+
+.colorspace-c {
+    padding: 1em 0 0 10px;
+}
+
+/*Color Picker*/
+.colorspace-picker{
+    position: relative;
+    width: 95px;
+    height: 95px;
+    margin: 4px 0 0 0;
+    background: #000;
+}
+
+.colorspace-picker_ring{
+    position: absolute;
+    width: 95px;
+    height: 95px;
+    cursor: crosshair;
+    background: #fff url(ring.png) no-repeat 0 0;
+}
+
+.colorspace-picker_marker{
+    position: absolute;
+    display: block;
+    width: 15px;
+    height: 15px;
+    cursor: crosshair;
+    background: url(marker.png) no-repeat 0 0;
+}
+
+.colorspace-picker_square{
+    position: absolute;
+    left: 21px;
+    top: 21px;
+    cursor: crosshair;
+    background: #0cf;
+}
+
+.colorspace-picker_square_mask{
+    width: 53px;
+    height: 53px;
+    cursor: crosshair;
+    background: url(square-mask.png) no-repeat 0 0;
+}
+
+/*Color values*/
+colorspave-values_columns{
+    border-collapse: collapse;
+}
+
+.colorspace_label{
+    font-size: 90%;
+    font-weight: bold;
+    padding: 0 2px 0 0;
+    color: #666;
+    text-align: center;
+}
+
+.colorspace_sup{
+    font-size: 70%;
+}
+
+.colorspace_label_gap{
+    padding: 0 15px 0 0;
+}
+
+.colorspace_rgbhsv input{
+    width: 2.1em;
+    margin: 0 2px 0 0;
+}
+
+.colorspace_grbhsv_gap input{
+    margin: 0 15px 0 0;
 }
