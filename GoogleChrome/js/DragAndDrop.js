@@ -168,12 +168,13 @@ function absoluteCursorPostion(eventObj)
         return new Position(eventObj.clientX + window.scrollX, eventObj.clientY + window.scrollY);
 }
 
-function dragObject(element, attachElement, lowerBound, upperBound, startCallback, moveCallback, endCallback, attachLater)
+function dragObject(element, attachElement, lowerBound, upperBound, startCallback, moveCallback, endCallback, _isCircle, attachLater)
 {
     if(typeof(element) == "string")
         element = document.getElementById(element);
     if(element == null)
         return;
+    var isCircle = _isCircle;
 
     if(lowerBound != null && upperBound != null)
     {
@@ -208,13 +209,39 @@ function dragObject(element, attachElement, lowerBound, upperBound, startCallbac
         return cancelEvent(eventObj);
     }
 
+    function getAngle(newPos) {
+
+        var x = newPos.X - 40.5;
+        var y = newPos.Y - 40.5;
+       // a =  Math.atan2(y,x)*180.0/Math.PI;
+
+        if(x==0) return (y>0) ? 180 : 0;
+        var a = Math.atan2(y,x); //*180/Math.PI;
+        a = a+Math.PI/2.0;
+
+        if(a < 0)
+            a = Math.PI*2 + a;
+        console.log("Angle: " + a);
+        return a;
+    }
+
     function dragGo(eventObj)
     {
         if(!dragging || disposed) return;
 
         var newPos = absoluteCursorPostion(eventObj);
         newPos = newPos.Add(elementStartPos).Subtract(cursorStartPos);
-        newPos = newPos.Bound(lowerBound, upperBound)
+        newPos = newPos.Bound(lowerBound, upperBound);
+        //console.log("X: " + newPos.X + "Y: " + newPos.Y);
+        if(isCircle)
+        {
+            var angle = getAngle(newPos);
+            var x = 40.0 + 40.0*Math.cos(Math.PI/2.0 - angle) ;
+            var y =40.0 - 40.0*Math.sin(Math.PI/2.0 - angle) ;
+            newPos = new Position(x, y);
+            console.log("X: " + newPos.X + "Y: " + newPos.Y);
+        }
+
         newPos.Apply(element);
         if(moveCallback != null)
             moveCallback(newPos, element);
