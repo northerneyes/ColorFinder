@@ -11,7 +11,7 @@
         <input id="query" type="search" placeholder="Search your color">
     </div>
 
-    <div class="colorspace-values">
+    <div class="colorspace-values" ng-model="color">
         <table class="colorspave-values_columns">
             <tbody>
                 <tr>
@@ -32,23 +32,23 @@
                 </tr>
                 <tr>
                     <td class="colorspace_rgbhsv colorspace_rgbhsb_r">
-                        <input maxlength="3" size="3" max="255">
+                        <input maxlength="3" size="3" max="255" ng-model="color.red " ng-change="updateRGB()">
                     </td>
-                    <td class="colorspace_rgbhsv colorspace_rgbhsb_g">
-                        <input maxlength="3" size="3" max="255">
+                    <td class="colorspace_rgbhsv colorspace_rgbhsb_g" >
+                        <input maxlength="3" size="3" max="255" ng-model="color.green" ng-change="updateRGB()">
                     </td>
                     <td class="colorspace_rgbhsv colorspace_rgbhsb_b colorspace_grbhsv_gap">
-                        <input maxlength="3" size="3" max="255">
+                        <input maxlength="3" size="3" max="255" ng-model="color.blue" ng-change="updateRGB()">
                     </td>
 
                     <td class="colorspace_rgbhsv colorspace_rgbhsb_h">
-                        <input maxlength="3" size="3" max="255">
+                        <input maxlength="3" size="3" max="255"  ng-model="color.hue" ng-change="updateHSV()">
                     </td>
                     <td class="colorspace_rgbhsv colorspace_rgbhsb_s">
-                        <input maxlength="3" size="3" max="255">
+                        <input maxlength="3" size="3" max="255"  ng-model="color.saturation" ng-change="updateHSV()">
                     </td>
                     <td class="colorspace_rgbhsv colorspace_rgbhsb_v">
-                        <input maxlength="3" size="3" max="255">
+                        <input maxlength="3" size="3" max="255" ng-model="color.value" ng-change="updateHSV()">
                     </td>
 
                 </tr>
@@ -117,5 +117,6 @@
 
 <script src="angular/angular.js"></script>
 <script src="jquery/jquery-1.7.1.min.js"></script>
+<script src="js/Colors.js"></script>
 <script src="js/popup.js"></script>
 </html>

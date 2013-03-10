@@ -7,7 +7,31 @@
  */
 function ColorSpaceCtrl($scope) {
 
+   // var colors = chrome.extension.getBackgroundPage().Colors;
+    var color =  Colors.ColorFromRGB(255, 33, 33);
 
+    $scope.color = update(color);
+
+    $scope.updateRGB = function(){
+        color.SetRGB($scope.color.red,  $scope.color.green,  $scope.color.blue);
+        $scope.color = update(color);
+    };
+
+    $scope.updateHSV = function(){
+        color.SetHSV($scope.color.hue, $scope.color.saturation, $scope.color.value);
+        $scope.color = update(color);
+    }
+}
+
+function update(color){
+    return  {
+        red:color.Red(),
+        blue:color.Blue(),
+        green:color.Green(),
+        hue:color.Hue(),
+        saturation:color.Saturation(),
+        value:color.Value()
+    };
 }
 
 //$(function() {
