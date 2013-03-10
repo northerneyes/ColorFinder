@@ -12,7 +12,7 @@
     </div>
 
     <div class="colorspace-values" ng-model="color">
-        <table class="colorspave-values_columns">
+        <table class="colorspace-values_columns">
             <tbody>
                 <tr>
                     <td rowspan="2"></td>
@@ -52,8 +52,19 @@
                     </td>
 
                 </tr>
+            <tr>
+                <td class="colorspace-rgb-title">#</td>
+                <td class="colorspace-rgb colorspace-rgbhsv-hex" colspan="3">
+                    <input size="6" maxlength="6" max="16777215" ng-model="color.hex" ng-change="updateHex()">
+                </td>
+                <td colspan="3"></td>
+            </tr>
             </tbody>
         </table>
+        <div class="colorspace-selected_color">
+            <div class="colorspace-quickcolor" ng-style="{backgroundColor:color.quickColor}"></div>
+            <div class="colorspace-staticcolor" ng-style="{backgroundColor:color.staticColor}"></div>
+        </div>
     </div>
 
     <div id="color-space">
@@ -92,13 +103,13 @@
                         </div>
                     </td>
                     <td class="colorspace-c">
-                        <div class="colorspace-picker">
+                        <div id="colorspace-picker" class="colorspace-picker">
                             <div class="colorspace-picker_ring">
                                 <i class="colorspace-picker_marker"></i>
                             </div>
-                            <div class="colorspace-picker_square" style="background-color: rgb(255, 115, 0);">
+                            <div class="colorspace-picker_square" ng-style="{backgroundColor:color.pickerColor}">
                                 <div class="colorspace-picker_square_mask">
-                                    <i class="colorspace-picker_marker"></i>
+                                    <i id="square_marker" class="colorspace-picker_marker"></i>
                                 </div>
                             </div>
 
@@ -118,5 +129,7 @@
 <script src="angular/angular.js"></script>
 <script src="jquery/jquery-1.7.1.min.js"></script>
 <script src="js/Colors.js"></script>
+<script src="js/DragAndDrop.js"></script>
+<script src="js/ColorPicker.js"></script>
 <script src="js/popup.js"></script>
 </html>

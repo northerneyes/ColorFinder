@@ -10,16 +10,43 @@ function ColorSpaceCtrl($scope) {
    // var colors = chrome.extension.getBackgroundPage().Colors;
     var color =  Colors.ColorFromRGB(255, 33, 33);
 
+    initColorPicker(colorChanged, staticColorChanged, color);
     $scope.color = update(color);
 
     $scope.updateRGB = function(){
-        color.SetRGB($scope.color.red,  $scope.color.green,  $scope.color.blue);
-        $scope.color = update(color);
+        if(color.SetRGB($scope.color.red,  $scope.color.green,  $scope.color.blue))
+        {
+            $scope.color = update(color);
+        }
     };
 
     $scope.updateHSV = function(){
-        color.SetHSV($scope.color.hue, $scope.color.saturation, $scope.color.value);
-        $scope.color = update(color);
+        if(color.SetHSV($scope.color.hue, $scope.color.saturation, $scope.color.value))
+        {
+            $scope.color = update(color);
+        }
+
+    };
+
+    $scope.updateHex = function(){
+        if(color.SetHexString($scope.color.hex)){
+            $scope.color = update(color);
+        }
+
+    };
+
+    //CallBack from colorPicker
+    function colorChanged(changedColor)
+    {
+        $scope.color.quickColor = changedColor.HexStringWithPrefix();
+        $scope.$apply();
+    }
+
+    function staticColorChanged(changedColor)
+    {
+        //change static cell
+        $scope.color = update(changedColor);
+        $scope.$apply();
     }
 }
 
@@ -29,17 +56,11 @@ function update(color){
         blue:color.Blue(),
         green:color.Green(),
         hue:color.Hue(),
-        saturation:color.Saturation(),
-        value:color.Value()
+        saturation:color.Saturation().toFixed(0),
+        value:color.Value().toFixed(0),
+        hex:color.HexString(),
+        quickColor:color.HexStringWithPrefix(),
+        staticColor:color.HexStringWithPrefix(),
+        pickerColor:Colors.ColorFromHSV(color.Hue(), 100, 100).HexStringWithPrefix()
     };
 }
-
-//$(function() {
-//    // Render the template with the tabs data and insert
-//    // the rendered HTML under the "tabsList" element
-//  //  var tabs = chrome.extension.getBackgroundPage().tabs;
-////    $(".tabs-display" ).html(
-////        $( "#tabsTemplate" ).render(tabs)
-////    );
-//});
-

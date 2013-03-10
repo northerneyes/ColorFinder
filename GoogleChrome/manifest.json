@@ -9,7 +9,7 @@
 		"default_popup": "popup.html"
 	},
 	"options_page": "options.html",
-	"background": { "scripts": ["js/background.js"] },
+	"background": { "scripts": ["js/Colors.js", "js/background.js"] },
   	"icons": {
     "128": "icon.png"
   	}

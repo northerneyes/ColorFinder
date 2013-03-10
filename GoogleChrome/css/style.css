@@ -172,8 +172,10 @@ body{
 }
 
 /*Color values*/
-colorspave-values_columns{
+.colorspace-values_columns{
     border-collapse: collapse;
+    overflow: hidden;
+    display: inline-block;
 }
 
 .colorspace_label{
@@ -199,4 +201,43 @@ colorspave-values_columns{
 
 .colorspace_grbhsv_gap input{
     margin: 0 15px 0 0;
+}
+
+.colorspace-rgb-title{
+    padding: 7px 5px 0 0;
+    color: #666;
+}
+
+/*Selected color*/
+.colorspace-selected_color{
+    position: relative;
+    border: 1px solid;
+    border-color: #666;
+    border-style: solid;
+    height: 52px;
+    width: 96px;
+    top: 0px;
+    left: 30px;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.colorspace-quickcolor{
+    position: relative;
+    height: 52px;
+    width: 48px;
+    top: 0px;
+    left: 0px;
+    display: inline-block;
+    margin: 0;
+}
+
+.colorspace-staticcolor{
+    position: relative;
+    height: 52px;
+    width: 48px;
+    top: 0px;
+    left: 0px;
+    display: inline-block;
+    margin-left: -3px;
 }

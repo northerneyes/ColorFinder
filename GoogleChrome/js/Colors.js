@@ -142,7 +142,11 @@ var Colors = new function()
             var bStr = this.Blue().toString(16);
             if (bStr.length == 1)
                 bStr = '0' + bStr;
-            return ('#' + rStr + gStr + bStr).toUpperCase();
+            return (rStr + gStr + bStr).toUpperCase();
+        };
+
+        this.HexStringWithPrefix = function(){
+            return ('#' + this.HexString());
         };
 
         this.Complement = function () {
