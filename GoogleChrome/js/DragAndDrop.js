@@ -168,6 +168,22 @@ function absoluteCursorPostion(eventObj)
         return new Position(eventObj.clientX + window.scrollX, eventObj.clientY + window.scrollY);
 }
 
+function getAngle(newPos) {
+
+    var x = newPos.X - 40.5; //40.5 - coordinates of center circle, 95/2 - 7 where -7 is shift
+    var y = newPos.Y - 40.5;
+    // a =  Math.atan2(y,x)*180.0/Math.PI;
+
+    if(x==0) return (y>0) ? 180 : 0;
+    var a = Math.atan2(y,x); //*180/Math.PI;
+    a = a+Math.PI/2.0;
+
+    if(a < 0)
+        a = Math.PI*2 + a;
+    console.log("Angle: " + a);
+    return a;
+}
+
 function dragObject(element, attachElement, lowerBound, upperBound, startCallback, moveCallback, endCallback, _isCircle, attachLater)
 {
     if(typeof(element) == "string")
@@ -209,21 +225,7 @@ function dragObject(element, attachElement, lowerBound, upperBound, startCallbac
         return cancelEvent(eventObj);
     }
 
-    function getAngle(newPos) {
 
-        var x = newPos.X - 40.5;
-        var y = newPos.Y - 40.5;
-       // a =  Math.atan2(y,x)*180.0/Math.PI;
-
-        if(x==0) return (y>0) ? 180 : 0;
-        var a = Math.atan2(y,x); //*180/Math.PI;
-        a = a+Math.PI/2.0;
-
-        if(a < 0)
-            a = Math.PI*2 + a;
-        console.log("Angle: " + a);
-        return a;
-    }
 
     function dragGo(eventObj)
     {
@@ -236,16 +238,21 @@ function dragObject(element, attachElement, lowerBound, upperBound, startCallbac
         if(isCircle)
         {
             var angle = getAngle(newPos);
-            var x = 40.0 + 40.0*Math.cos(Math.PI/2.0 - angle) ;
-            var y =40.0 - 40.0*Math.sin(Math.PI/2.0 - angle) ;
+            var x = 40.5 + 42.0*Math.cos(Math.PI/2.0 - angle) ; //42 radius 40 + 2 - shift of circle
+            var y = 40.5 - 42.0*Math.sin(Math.PI/2.0 - angle) ; //40.5 - coordinates of center circle
             newPos = new Position(x, y);
             console.log("X: " + newPos.X + "Y: " + newPos.Y);
+
+            newPos.Apply(element);
+            if(moveCallback != null)
+                moveCallback(angle, element);
         }
-
-        newPos.Apply(element);
-        if(moveCallback != null)
-            moveCallback(newPos, element);
-
+        else
+        {
+            newPos.Apply(element);
+            if(moveCallback != null)
+                moveCallback(newPos, element);
+        }
         return cancelEvent(eventObj);
     }
 
@@ -266,6 +273,24 @@ function dragObject(element, attachElement, lowerBound, upperBound, startCallbac
             endCallback(element);
         dragging = false;
     }
+
+    this.setCursor = function(){
+        if(!isCircle)
+        {
+            var position = new Position(currentColor.Saturation()*52.0/100.0,(1 -currentColor.Value()/100.0)*52.0);
+          //  currentColor.SetHSV(currentColor.Hue(), (pos.X/52.0)*100.0, (1-pos.Y/52.0)*100);
+            position = correctOffset(position, squareMarkerOffset, true);
+            position.Apply(element);
+        }
+        else
+        {
+            var angle = Math.PI*currentColor.Hue()/180.0;
+            var x = 40.5 + 42.0*Math.cos(Math.PI/2.0 - angle) ; //42 radius 40 + 2 - shift of circle
+            var y = 40.5 - 42.0*Math.sin(Math.PI/2.0 - angle) ; //40.5 - coordinates of center circle
+            var position2 = new Position(x, y);
+            position2.Apply(element);
+        }
+    };
 
     this.Dispose = function()
     {

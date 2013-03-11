@@ -21,6 +21,9 @@ var arrowsOffset;
 var arrowsLowBounds;
 var arrowsUpBounds;
 
+var squareCursor;
+var circleCursor;
+
 function initColorPicker( _pickerValueChanging, _pickerValueChanged, _currentColor)
 {
      pointerOffset = new Position(0, navigator.userAgent.indexOf("Firefox") >= 0 ? 1 : 0);
@@ -34,17 +37,25 @@ function initColorPicker( _pickerValueChanging, _pickerValueChanged, _currentCol
      arrowsUpBounds = new Position(88, 88);
 
 
-    pickerValueChanged = _pickerValueChanged;
-    pickerValueChanging = _pickerValueChanging;
+     pickerValueChanged = _pickerValueChanged;
+     pickerValueChanging = _pickerValueChanging;
 
-    currentColor = _currentColor;
+     currentColor = _currentColor;
 
-    new dragObject("square_marker", "colorspace-picker", squareMarkerLowBounds, squareMarkerUpBounds,
+    squareCursor = new dragObject("square_marker", "colorspace-picker", squareMarkerLowBounds, squareMarkerUpBounds,
         circleDown, circleMoved, endMovement, false);
 
-    new dragObject("colorspace-picker_marker", "colorspace-ring", arrowsLowBounds, arrowsUpBounds,
+    circleCursor = new dragObject("colorspace-picker_marker", "colorspace-ring", arrowsLowBounds, arrowsUpBounds,
         arrowsDown, arrowsMoved, endMovement, true);
 
+    setColorPickerMarkers();
+
+}
+
+function setColorPickerMarkers()
+{
+    squareCursor.setCursor();
+    circleCursor.setCursor();
 }
 
 function endMovement()
@@ -67,16 +78,21 @@ function arrowsDown(e, arrows)
 
     pos = pos.Bound(arrowsLowBounds, arrowsUpBounds);
 
+    //angle
+    var angle = getAngle(pos);
+    var x = 40.5 + 42.0*Math.cos(Math.PI/2.0 - angle) ; //42 radius 40 + 2 - shift of circle
+    var y = 40.5 - 42.0*Math.sin(Math.PI/2.0 - angle) ; //40.5 - coordinates of center circle
+    pos = new Position(x, y);
+
     pos.Apply(arrows);
 
-    arrowsMoved(pos);
+    arrowsMoved(angle);
 }
 
-function arrowsMoved(pos, element)
+function arrowsMoved(angle, element)
 {
-    pos = correctOffset(pos, arrowsOffset, false);
-   // currentColor.SetHSV((256 - pos.Y)*359.99/255, currentColor.Saturation(), currentColor.Value());
-   // colorChanged("arrows");
+    currentColor.SetHSV(180*angle/Math.PI, currentColor.Saturation(), currentColor.Value());
+    pickerValueChanging(currentColor);
 }
 
 

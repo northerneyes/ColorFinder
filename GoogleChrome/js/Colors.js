@@ -95,21 +95,21 @@ var Colors = new function()
          * @return {number}
          */
         this.Hue = function () {
-            return hue;
+            return hue*1.0;
         };
 
         /**
          * @return {number}
          */
         this.Saturation = function () {
-            return saturation*100;
+            return saturation*100.0;
         };
 
         /**
          * @return {number}
          */
         this.Value = function () {
-            return value*100;
+            return value*100.0;
         };
 
         /**

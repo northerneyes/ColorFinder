@@ -8,7 +8,7 @@
 function ColorSpaceCtrl($scope) {
 
    // var colors = chrome.extension.getBackgroundPage().Colors;
-    var color =  Colors.ColorFromRGB(255, 33, 33);
+    var color =  Colors.ColorFromRGB(255, 60, 10);
 
     initColorPicker(colorChanged, staticColorChanged, color);
     $scope.color = update(color);
@@ -51,11 +51,12 @@ function ColorSpaceCtrl($scope) {
 }
 
 function update(color){
+    setColorPickerMarkers();
     return  {
         red:color.Red(),
         blue:color.Blue(),
         green:color.Green(),
-        hue:color.Hue(),
+        hue:color.Hue().toFixed(0),
         saturation:color.Saturation().toFixed(0),
         value:color.Value().toFixed(0),
         hex:color.HexString(),
