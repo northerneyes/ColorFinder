@@ -5,6 +5,44 @@
  * Time: 21:32
  * To change this template use File | Settings | File Templates.
  */
+
+$(function () {
+
+    var colorsName = chrome.extension.getBackgroundPage().colorsName;
+
+    $('#query').focus();
+
+    $('#query').autocomplete({
+        source:
+            function(request, response){
+            var results = jQuery.ui.autocomplete.filter(colorsName, request.term);
+            results = results.sort(function(a, b){
+                return a.toLowerCase().indexOf(request.term.toLowerCase()) - b.toLowerCase().indexOf(request.term.toLowerCase());
+            });
+
+                results = results.sort(function(a, b){
+                    return (a.length < b.length) ? -1 : 1;
+                });
+            response(results.slice(0, 15));
+        }
+//        function (request, response) {
+//            var term = $.ui.autocomplete.escapeRegex(request.term)
+//                , startsWithMatcher = new RegExp("^" + term, "i")
+//                , startsWith = $.grep(colorsName, function(value) {
+//                    return startsWithMatcher.test(value.label || value.value || value);
+//                })
+//                , containsMatcher = new RegExp(term, "i")
+//                , contains = $.grep(colorsName, function (value) {
+//                    return $.inArray(value, startsWith) < 0 &&
+//                        containsMatcher.test(value.label || value.value || value);
+//                });
+//
+//            response(startsWith.concat(contains));
+//        }
+    });
+
+});
+
 function ColorSpaceCtrl($scope) {
 
    // var colors = chrome.extension.getBackgroundPage().Colors;
@@ -49,6 +87,7 @@ function ColorSpaceCtrl($scope) {
         $scope.$apply();
     }
 }
+
 
 function update(color){
     setColorPickerMarkers();

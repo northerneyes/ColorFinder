@@ -241,3 +241,39 @@ body{
     display: inline-block;
     margin-left: -3px;
 }
+
+/*Finder Panel*/
+@font-face {
+    font-family: "Open Sans", sans-serif;
+    src: url('http://fonts.googleapis.com/css?family=Open+Sans');
+}
+
+#query{
+    width: 370px;
+    margin-bottom: 5px;
+}
+
+input[type="text"], input[type="search"]{
+    border: 1px solid #BFBFBF;
+    border-radius: 2px;
+    box-sizing: border-box;
+    color: #444;
+    margin: 0;
+    padding: 3px;
+    padding-bottom: 4px;
+}
+
+input[type="search"] {
+    -webkit-appearance: textfield;
+    min-width: 160px;
+    min-height: 2em;
+}
+
+input, button{
+    font-family: "Open Sans", sans-serif;
+    font-size: 10pt;
+    color: rgb(48, 57, 66);
+    letter-spacing: normal;
+    text-indent: 0;
+    text-shadow: 0 1px 0 hsla(0,0%,100%,.75);
+}
