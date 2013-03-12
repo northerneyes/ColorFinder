@@ -6,50 +6,24 @@
  * To change this template use File | Settings | File Templates.
  */
 
-$(function () {
 
-    var colorsName = chrome.extension.getBackgroundPage().colorsName;
+var app = angular.module('ColorSpace', []);
+
+app.controller('ColorSpaceCtrl', function($scope) {
 
     $('#query').focus();
 
-    $('#query').autocomplete({
-        source:
-            function(request, response){
-            var results = jQuery.ui.autocomplete.filter(colorsName, request.term);
-            results = results.sort(function(a, b){
-                return a.toLowerCase().indexOf(request.term.toLowerCase()) - b.toLowerCase().indexOf(request.term.toLowerCase());
-            });
-
-                results = results.sort(function(a, b){
-                    return (a.length < b.length) ? -1 : 1;
-                });
-            response(results.slice(0, 15));
-        }
-//        function (request, response) {
-//            var term = $.ui.autocomplete.escapeRegex(request.term)
-//                , startsWithMatcher = new RegExp("^" + term, "i")
-//                , startsWith = $.grep(colorsName, function(value) {
-//                    return startsWithMatcher.test(value.label || value.value || value);
-//                })
-//                , containsMatcher = new RegExp(term, "i")
-//                , contains = $.grep(colorsName, function (value) {
-//                    return $.inArray(value, startsWith) < 0 &&
-//                        containsMatcher.test(value.label || value.value || value);
-//                });
-//
-//            response(startsWith.concat(contains));
-//        }
-    });
-
-});
-
-function ColorSpaceCtrl($scope) {
-
-   // var colors = chrome.extension.getBackgroundPage().Colors;
     var color =  Colors.ColorFromRGB(255, 60, 10);
 
     initColorPicker(colorChanged, staticColorChanged, color);
+
+    $scope.source = chrome.extension.getBackgroundPage().colorsName;
+
     $scope.color = update(color);
+
+    $scope.onSelect = function( selectedValue ) {
+        console.log( selectedValue );
+    };
 
     $scope.updateRGB = function(){
         if(color.SetRGB($scope.color.red,  $scope.color.green,  $scope.color.blue))
@@ -86,7 +60,7 @@ function ColorSpaceCtrl($scope) {
         $scope.color = update(changedColor);
         $scope.$apply();
     }
-}
+});
 
 
 function update(color){
@@ -104,3 +78,28 @@ function update(color){
         pickerColor:Colors.ColorFromHSV(color.Hue(), 100, 100).HexStringWithPrefix()
     };
 }
+
+app.directive('autocomplete',function(){
+    return{
+        link: function(scope, element, attrs){
+            $(element).autocomplete({
+                source:
+                    function(request, response){
+                        var results = jQuery.ui.autocomplete.filter(scope.source, request.term);
+                        results = results.sort(function(a, b){
+                            return a.toLowerCase().indexOf(request.term.toLowerCase()) - b.toLowerCase().indexOf(request.term.toLowerCase());
+                        });
+
+                        results = results.sort(function(a, b){
+                            return (a.length < b.length) ? -1 : 1;
+                        });
+                        response(results.slice(0, 15));
+                    },
+                select: function (event, ui) {
+                    console.log(scope);
+                    scope.onSelect(ui.item.value);
+                }
+            });
+        }
+    };
+});

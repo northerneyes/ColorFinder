@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app ng-csp>
+<html ng-app="ColorSpace" ng-csp>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"  />
     <title>Color Space</title>
@@ -9,7 +9,7 @@
 
 <body ng-controller="ColorSpaceCtrl">
     <div id="search-panel">
-        <input id="query" type="search" placeholder="Search your color">
+        <input autocomplete source="source" id="query" type="search"  ng-model="color.name" placeholder="Search your color">
     </div>
 
     <div class="colorspace-values" ng-model="color">
@@ -128,7 +128,7 @@
 </body>
 
 <script src="angular/angular.js"></script>
-<script src="jquery/jquery-1.7.1.min.js"></script>
+<script src="jquery/jquery-1.9.1.min.js"></script>
 <script src="js/Colors.js"></script>
 <script src="js/DragAndDrop.js"></script>
 <script src="js/ColorPicker.js"></script>
