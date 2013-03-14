@@ -46,7 +46,7 @@ var Colors = new function()
         var saturation = 0;
         var value = 0;
 
-        this.rred = red;
+        this.Name = "";
         /**
          * @return {boolean}
          */

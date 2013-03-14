@@ -48,12 +48,13 @@ function initColorPicker( _pickerValueChanging, _pickerValueChanged, _currentCol
     circleCursor = new dragObject("colorspace-picker_marker", "colorspace-ring", arrowsLowBounds, arrowsUpBounds,
         arrowsDown, arrowsMoved, endMovement, true);
 
-    setColorPickerMarkers();
+    setColorPickerMarkers(currentColor);
 
 }
 
-function setColorPickerMarkers()
+function setColorPickerMarkers(_currentColor)
 {
+    currentColor = _currentColor;
     squareCursor.setCursor();
     circleCursor.setCursor();
 }
