@@ -18,6 +18,11 @@ app.controller('ColorSpaceCtrl', function($scope) {
     initColorPicker(colorChanged, staticColorChanged, color);
 
     $scope.source = chrome.extension.getBackgroundPage().colorDictionary;
+    $scope.customColors = [];
+    for(var i = 0; i < 10; i++)
+    {
+        $scope.customColors.push(i);
+    }
 
     $scope.color = update(color);
 

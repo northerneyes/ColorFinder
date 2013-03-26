@@ -58,7 +58,9 @@
                 <td class="colorspace-rgb colorspace-rgbhsv-hex" colspan="3">
                     <input size="6" maxlength="6" max="16777215" ng-model="color.hex" ng-change="updateHex()">
                 </td>
-                <td colspan="3"></td>
+                <td colspan="3">
+
+                </td>
             </tr>
             </tbody>
         </table>
@@ -151,8 +153,12 @@
         </table>
     </div>
 
-    <div id="saved-color-section">
-
+    <div class="saved-color-section">
+        <input type="button" value="Add to My Colors">
+        <div class="custom_box_container">
+                <div id="customColorBox{{index + 1}}" class="customColorBox" index="{{$index + 1}}" style="background-color: rgb(216, 216, 216);"  ng-repeat="color in customColors"></div>
+        </div>
+        <input type="button" value="Clear" class="clear_button">
     </div>
 </body>
 
