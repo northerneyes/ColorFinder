@@ -66,13 +66,13 @@ app.controller('ColorSpaceCtrl', function($scope) {
     }
 
     $scope.colorDown = function(){
-        var index = selectedColor.Index
+        var index = selectedColor.Index;
         updateBarrel(++index);
         $scope.color = updateMainColor(Colors.ColorFromHex(selectedColor.HexValue));
     };
 
     $scope.colorUp= function(){
-        var index = selectedColor.Index
+        var index = selectedColor.Index;
         updateBarrel(--index);
         $scope.color = updateMainColor(Colors.ColorFromHex(selectedColor.HexValue));
     };
