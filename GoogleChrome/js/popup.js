@@ -13,8 +13,9 @@ app.controller('ColorSpaceCtrl', function($scope) {
 
     $('#query').focus();
 
-    var color =  Colors.ColorFromRGB(255, 60, 10);
-
+    var color =  localStorage["color"] == undefined ? Colors.ColorFromRGB(255,0,0) : Colors.ColorFromHex(localStorage["color"]);
+    var selectedColor;
+    var colorValues = [];
     initColorPicker(colorChanged, staticColorChanged, color);
 
     $scope.source = chrome.extension.getBackgroundPage().colorDictionary;
@@ -47,27 +48,58 @@ app.controller('ColorSpaceCtrl', function($scope) {
         return indexes;
     }
 
+    function checkIndexes(index, lowBound, upBound)
+    {
+        if(index < lowBound)
+            return upBound + index;
+        else if(index >= upBound)
+            return  index - upBound;
+        return index;
+    }
+
+    function checkSourceIndexes(index)
+    {
+        return checkIndexes(index, 0, $scope.source.length);
+    }
+
     $scope.onSelect = function( selectedValue ) {
-        var mainColor = Colors.ColorFromHex(selectedValue.HexValue);
-        mainColor.Name = selectedValue.label;
-        color = mainColor;
-        $scope.color = update(mainColor);
+        selectedColor = selectedValue;
+        var index = selectedValue.Index;
 
-
-        var indexes = getIndexes(selectedValue.Index);
-        var div2Color = Colors.ColorFromHex($scope.source[indexes[0]].HexValue);
-        div2Color.Name = $scope.source[indexes[0]].label;
-        var div1Color = Colors.ColorFromHex($scope.source[indexes[1]].HexValue);
-        div1Color.Name = $scope.source[indexes[1]].label;
-        var add1Color = Colors.ColorFromHex($scope.source[indexes[2]].HexValue);
-        add1Color.Name = $scope.source[indexes[2]].label;
-        var add2Color = Colors.ColorFromHex($scope.source[indexes[3]].HexValue);
-        add2Color.Name = $scope.source[indexes[3]].label;
-
-        $scope.barrelColor = updateMainColor(color, div2Color, div1Color, add1Color, add2Color);
-        console.log( selectedValue );
-
+        updateBarrel(index);
+        $scope.color = updateMainColor(Colors.ColorFromHex(colorValues[0].HexValue));
         $scope.$apply();
+    };
+
+
+    function updateBarrel(index)
+    {
+        for(var i = -2; i <3; i++)
+        {
+            colorValues[i] = $scope.source[checkSourceIndexes(index + i)];
+        }
+    }
+
+    $scope.getBarrelColor = function(index){
+        return colorValues[index];
+    }
+
+    $scope.getBarrelTextColor = function(index){
+        var color = Colors.ColorFromHex(colorValues[index].HexValue);
+        if(color.Y() > 0.5)
+            return "#000000";
+        else
+            return "#FFFFFF";
+    }
+
+    $scope.colorDown = function(){
+        updateBarrel(++selectedColor.Index);
+        $scope.color = updateMainColor(Colors.ColorFromHex(colorValues[0].HexValue));
+    };
+
+    $scope.colorUp= function(){
+        updateBarrel(--selectedColor.Index);
+        $scope.color = updateMainColor(Colors.ColorFromHex(colorValues[0].HexValue));
     };
 
     $scope.updateRGB = function(){
@@ -92,6 +124,7 @@ app.controller('ColorSpaceCtrl', function($scope) {
 
     };
 
+
     //CallBack from colorPicker
     function colorChanged(changedColor)
     {
@@ -105,36 +138,52 @@ app.controller('ColorSpaceCtrl', function($scope) {
         $scope.color = update(changedColor);
         $scope.$apply();
     }
+
+    function update(color){
+        selectedColor = findNamedColor(color);
+        updateBarrel(selectedColor.Index);
+       return updateMainColor(color);
+    }
+
+    function updateMainColor(color){
+        localStorage["color"] = color.HexStringWithPrefix();
+        setColorPickerMarkers(color);
+        return  {
+            red:color.Red(),
+            blue:color.Blue(),
+            green:color.Green(),
+            hue:color.Hue().toFixed(0),
+            saturation:color.Saturation().toFixed(0),
+            value:color.Value().toFixed(0),
+            hex:color.HexString(),
+            quickColor:color.HexStringWithPrefix(),
+            staticColor:color.HexStringWithPrefix(),
+            pickerColor:Colors.ColorFromHSV(color.Hue(), 100, 100).HexStringWithPrefix()
+        };
+    }
+
+    function findNamedColor(color)
+    {
+        var namedColors = $scope.source.slice(0);
+        var distances = [];
+
+        $.each(namedColors, function (index, namedColor) {
+            var _color = Colors.ColorFromHex(namedColor.HexValue);
+            namedColor.distance = color.getDistance(_color)
+            distances.push(namedColor.distance);
+        });
+
+        namedColors.sort(function(a, b) { return a.distance - b.distance });
+
+
+        return namedColors[0];
+    }
+
 });
 
 
-function updateMainColor(color,  div2Color, div1Color, add1Color, add2Color){
-    return  {
-        mainColor:{hexValue : color.HexStringWithPrefix(), Name : color.Name},
-        div2Color:{hexValue : div2Color.HexStringWithPrefix(), Name : div2Color.Name},
-        div1Color:{hexValue : div1Color.HexStringWithPrefix(), Name : div1Color.Name},
-        add1Color:{hexValue : add1Color.HexStringWithPrefix(), Name : add1Color.Name},
-        add2Color:{hexValue : add2Color.HexStringWithPrefix(), Name : add2Color.Name}
-    };
-}
 
 
-function update(color){
-    setColorPickerMarkers(color);
-    return  {
-        red:color.Red(),
-        blue:color.Blue(),
-        green:color.Green(),
-        hue:color.Hue().toFixed(0),
-        saturation:color.Saturation().toFixed(0),
-        value:color.Value().toFixed(0),
-        hex:color.HexString(),
-        quickColor:color.HexStringWithPrefix(),
-        staticColor:color.HexStringWithPrefix(),
-        pickerColor:Colors.ColorFromHSV(color.Hue(), 100, 100).HexStringWithPrefix(),
-
-    };
-}
 
 app.directive('autocomplete',function(){
     return{

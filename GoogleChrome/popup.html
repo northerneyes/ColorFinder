@@ -75,27 +75,31 @@
                     <td class="colorspace-list">
                         <div class="colorspace-border">
                             <div class="colorspace-barrel">
-                                <a class="colorspace-arrow colorspace-arrow_up" href="#"></a>
-                                <a class="colorspace-arrow colorspace-arrow_down" href="#"></a>
+                                <a class="colorspace-arrow colorspace-arrow_up" href="#" ng-click="colorUp()"></a>
+                                <a class="colorspace-arrow colorspace-arrow_down" href="#" ng-click="colorDown()"></a>
                                 <i class="colorspace-barrel_l"></i>
                                 <i class="colorspace-barrel_fade"></i>
                                 <i class="colorspace-barrel_r"></i>
                                 <table class="colorsapce-barrel_columns">
                                     <tbody>
                                         <tr class="colorspace-row-x">
-                                            <td class="colorspace-barrel-x" ng-style="{backgroundColor:barrelColor.div2Color.hexValue}">{{barrelColor.div2Color.Name}}</td>
+                                            <td class="colorspace-barrel-x" ng-style="{backgroundColor:getBarrelColor(-2).HexValue, color:getBarrelTextColor(-2)}"
+                                             >{{getBarrelColor(-2).Name}}</td>
                                         </tr>
                                         <tr class="colorspace-row-x1">
-                                            <td class="colorspace-barrel-x1" ng-style="{backgroundColor:barrelColor.div1Color.hexValue}">{{barrelColor.div1Color.Name}}</td>
+                                            <td class="colorspace-barrel-x1" ng-style="{backgroundColor:getBarrelColor(-1).HexValue, color:getBarrelTextColor(-1)}">{{getBarrelColor(-1).Name}}</td>
                                         </tr>
                                         <tr class="colorspace-row-xx1">
-                                            <td class="colorspace-barrel-xx1"  ng-style="{backgroundColor:barrelColor.mainColor.hexValue}">{{barrelColor.mainColor.Name}}</td>
+                                            <td class="colorspace-barrel-xx1"  ng-style="{backgroundColor:getBarrelColor(0).HexValue, color:getBarrelTextColor(0)};
+                                           ">{{getBarrelColor(0).Name}}</td>
                                         </tr>
                                         <tr class="colorspace-row-x1">
-                                            <td class="colorspace-barrel-x1" ng-style="{backgroundColor:barrelColor.add1Color.hexValue}">{{barrelColor.add1Color.Name}}</td>
+                                            <td class="colorspace-barrel-x1" ng-style="{backgroundColor:getBarrelColor(1).HexValue, color:getBarrelTextColor(1)};
+                                            ">{{getBarrelColor(1).Name}}</td>
                                         </tr>
                                         <tr class="colorspace-row-x">
-                                            <td class="colorspace-barrel-x" ng-style="{backgroundColor:barrelColor.add2Color.hexValue}">{{barrelColor.add2Color.Name}}</td>
+                                            <td class="colorspace-barrel-x" ng-style="{backgroundColor:getBarrelColor(2).HexValue, color:getBarrelTextColor(2)};
+                                           ">{{getBarrelColor(2).Name}}</td>
                                         </tr>
                                     </tbody>
                                 </table>

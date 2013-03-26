@@ -32,6 +32,7 @@ var Colors = new function()
         return color;
     };
 
+
     function Color()
     {
         //Stored as values between 0 and 1
@@ -64,6 +65,15 @@ var Colors = new function()
             calculateHSV();
             return true;
         };
+
+        this.getDistance = function(color)
+        {
+            return Math.sqrt(Math.pow(this.Red() - color.Red(),2) + Math.pow(this.Green() - color.Green(),2) + Math.pow(this.Blue() - color.Blue(),2));
+        }
+
+        this.Y = function(){
+            return red*0.3 + 0.59*green + 0.11*blue;
+        }
 
         this.Red = function () {
             return Math.round(red * 255);
