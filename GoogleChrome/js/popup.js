@@ -10,8 +10,7 @@
 var app = angular.module('ColorSpace', []);
 
 app.controller('ColorSpaceCtrl', function($scope) {
-
-    $('#query').focus();
+    $("#query").focus();
 
     var color =  localStorage["color"] == undefined ? Colors.ColorFromRGB(255,0,0) : Colors.ColorFromHex(localStorage["color"]);
     var selectedColor;
@@ -21,32 +20,6 @@ app.controller('ColorSpaceCtrl', function($scope) {
     $scope.source = chrome.extension.getBackgroundPage().colorDictionary;
 
     $scope.color = update(color);
-
-    function getIndexes(index) {
-        var length = $scope.source.length;
-        var indexes = [];
-        if(index - 2 < 0)
-            indexes.push(length + (index - 2));
-        else
-            indexes.push(index - 2);
-
-        if(index - 1 < 0)
-            indexes.push(length + (index - 1));
-        else
-            indexes.push(index - 1);
-
-        if(index + 1 >= length)
-            indexes.push(index - length);
-        else
-            indexes.push(index + 1);
-
-        if(index + 2 >= length)
-            indexes.push(index + 2 - length);
-        else
-            indexes.push(index + 2);
-
-        return indexes;
-    }
 
     function checkIndexes(index, lowBound, upBound)
     {
@@ -62,6 +35,15 @@ app.controller('ColorSpaceCtrl', function($scope) {
         return checkIndexes(index, 0, $scope.source.length);
     }
 
+    function updateBarrel(index)
+    {
+        for(var i = -2; i <3; i++)
+        {
+            colorValues[i] = $scope.source[checkSourceIndexes(index + i)];
+        }
+        selectedColor = colorValues[0];
+    }
+
     $scope.onSelect = function( selectedValue ) {
         selectedColor = selectedValue;
         var index = selectedValue.Index;
@@ -70,15 +52,6 @@ app.controller('ColorSpaceCtrl', function($scope) {
         $scope.color = updateMainColor(Colors.ColorFromHex(colorValues[0].HexValue));
         $scope.$apply();
     };
-
-
-    function updateBarrel(index)
-    {
-        for(var i = -2; i <3; i++)
-        {
-            colorValues[i] = $scope.source[checkSourceIndexes(index + i)];
-        }
-    }
 
     $scope.getBarrelColor = function(index){
         return colorValues[index];
@@ -93,15 +66,23 @@ app.controller('ColorSpaceCtrl', function($scope) {
     }
 
     $scope.colorDown = function(){
-        updateBarrel(++selectedColor.Index);
-        $scope.color = updateMainColor(Colors.ColorFromHex(colorValues[0].HexValue));
+        var index = selectedColor.Index
+        updateBarrel(++index);
+        $scope.color = updateMainColor(Colors.ColorFromHex(selectedColor.HexValue));
     };
 
     $scope.colorUp= function(){
-        updateBarrel(--selectedColor.Index);
-        $scope.color = updateMainColor(Colors.ColorFromHex(colorValues[0].HexValue));
+        var index = selectedColor.Index
+        updateBarrel(--index);
+        $scope.color = updateMainColor(Colors.ColorFromHex(selectedColor.HexValue));
     };
 
+    $scope.colorBarrelClick = function(index){
+        updateBarrel(selectedColor.Index + index);
+        $scope.color = updateMainColor(Colors.ColorFromHex(selectedColor.HexValue));
+    };
+
+    //Update color values
     $scope.updateRGB = function(){
         if(color.SetRGB($scope.color.red,  $scope.color.green,  $scope.color.blue))
         {
@@ -139,6 +120,8 @@ app.controller('ColorSpaceCtrl', function($scope) {
         $scope.$apply();
     }
 
+
+    //Update functions
     function update(color){
         selectedColor = findNamedColor(color);
         updateBarrel(selectedColor.Index);
