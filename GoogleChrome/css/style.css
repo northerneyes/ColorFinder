@@ -330,10 +330,15 @@ button:active, .button:active, input[type="button"]:active {
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
 .custom_box_container{
     margin-top: 3px;
 }
+
 .clear_button{
     height: 22px;
 }
 
+.activeCustomColorBox {
+    border: 1px solid #000;
+}

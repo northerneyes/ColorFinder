@@ -25,7 +25,7 @@ app.controller('ColorSpaceCtrl', function($scope) {
     }
 
     $scope.color = update(color);
-
+    $scope.selectedIndex = -1;
     function checkIndexes(index, lowBound, upBound)
     {
         if(index < lowBound)
@@ -49,6 +49,22 @@ app.controller('ColorSpaceCtrl', function($scope) {
         selectedColor = colorValues[0];
     }
 
+    $scope.toggleSelect = function(ind){
+      //  if( ind == $scope.selectedIndex ){
+      //      $scope.selectedIndex = -1;
+      //  } else{
+            $scope.selectedIndex = ind;
+       // }
+    };
+
+    $scope.getClass = function(ind){
+        if( ind == $scope.selectedIndex ){
+            return "customColorBox activeCustomColorBox";
+        } else{
+            return "customColorBox";
+        }
+    };
+
     $scope.onSelect = function( selectedValue ) {
         selectedColor = selectedValue;
         var index = selectedValue.Index;
@@ -60,7 +76,7 @@ app.controller('ColorSpaceCtrl', function($scope) {
 
     $scope.getBarrelColor = function(index){
         return colorValues[index];
-    }
+    };
 
     $scope.getBarrelTextColor = function(index){
         var color = Colors.ColorFromHex(colorValues[index].HexValue);
@@ -68,7 +84,7 @@ app.controller('ColorSpaceCtrl', function($scope) {
             return "#000000";
         else
             return "#FFFFFF";
-    }
+    };
 
     $scope.colorDown = function(){
         var index = selectedColor.Index;
