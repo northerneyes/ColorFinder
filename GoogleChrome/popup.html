@@ -154,11 +154,11 @@
     </div>
 
     <div class="saved-color-section">
-        <input type="button" value="Add to My Colors" ng-click="addColor">
+        <input type="button" value="Add to My Colors" ng-click="addColor()">
         <div class="custom_box_container">
-                <div  ng-click="toggleSelect($index)" ng-class="getClass($index)" style="background-color: rgb(216, 216, 216);"  ng-repeat="color in customColors"></div>
+                <div  ng-click="toggleSelect($index)" ng-class="getClass($index)"  ng-style="{backgroundColor:getCustomColors($index)}"   ng-repeat="color in customColors"></div>
         </div>
-        <input type="button" value="Clear" class="clear_button">
+        <input type="button" value="Clear" class="clear_button" ng-click="clearCustomColors()">
     </div>
 </body>
 

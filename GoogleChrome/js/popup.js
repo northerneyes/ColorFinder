@@ -13,19 +13,36 @@ app.controller('ColorSpaceCtrl', function($scope) {
     $("#query").focus();
 
     var color =  localStorage["color"] == undefined ? Colors.ColorFromRGB(255,0,0) : Colors.ColorFromHex(localStorage["color"]);
+    //$scope.customColors = localStorage["customColors"] == undefined ? createCustomColors() : localStorage["customColors"];
+    $scope.customColors =  createCustomColors();
     var selectedColor;
     var colorValues = [];
     initColorPicker(colorChanged, staticColorChanged, color);
 
     $scope.source = chrome.extension.getBackgroundPage().colorDictionary;
-    $scope.customColors = [];
-    for(var i = 0; i < 10; i++)
-    {
-        $scope.customColors.push(i);
-    }
+
 
     $scope.color = update(color);
     $scope.selectedIndex = -1;
+
+    function createCustomColors() {
+        if( localStorage["customColors"] == undefined)
+        {
+           clearCustomColors();
+        }
+        return JSON.parse(localStorage["customColors"]);
+    }
+
+    function clearCustomColors(){
+        var customColors = [];
+        for (var i = 0; i < 10; i++) {
+            customColors.push("#D8D8D8");
+        }
+        localStorage["customColors"] = JSON.stringify(customColors);
+        return customColors;
+    }
+
+
     function checkIndexes(index, lowBound, upBound)
     {
         if(index < lowBound)
@@ -49,12 +66,26 @@ app.controller('ColorSpaceCtrl', function($scope) {
         selectedColor = colorValues[0];
     }
 
+    $scope.clearCustomColors = function()
+    {
+        $scope.customColors = clearCustomColors();
+
+    }
+
+    $scope.getCustomColors = function(index)
+    {
+        return $scope.customColors[index];
+    }
+
+    $scope.addColor = function(){
+        $scope.customColors[$scope.selectedIndex] = "#" + $scope.color.hex;
+        localStorage["customColors"] = JSON.stringify($scope.customColors);
+    }
+
     $scope.toggleSelect = function(ind){
-      //  if( ind == $scope.selectedIndex ){
-      //      $scope.selectedIndex = -1;
-      //  } else{
-            $scope.selectedIndex = ind;
-       // }
+        if($scope.customColors[ind] != "#D8D8D8")
+            $scope.color = update(Colors.ColorFromHex($scope.customColors[ind]));
+         $scope.selectedIndex = ind;
     };
 
     $scope.getClass = function(ind){
@@ -151,6 +182,7 @@ app.controller('ColorSpaceCtrl', function($scope) {
 
     function updateMainColor(color){
         localStorage["color"] = color.HexStringWithPrefix();
+
         setColorPickerMarkers(color);
         return  {
             red:color.Red(),
