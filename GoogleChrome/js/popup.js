@@ -70,17 +70,17 @@ app.controller('ColorSpaceCtrl', function($scope) {
     {
         $scope.customColors = clearCustomColors();
 
-    }
+    };
 
     $scope.getCustomColors = function(index)
     {
         return $scope.customColors[index];
-    }
+    };
 
     $scope.addColor = function(){
         $scope.customColors[$scope.selectedIndex] = "#" + $scope.color.hex;
         localStorage["customColors"] = JSON.stringify($scope.customColors);
-    }
+    };
 
     $scope.toggleSelect = function(ind){
         if($scope.customColors[ind] != "#D8D8D8")
@@ -172,6 +172,10 @@ app.controller('ColorSpaceCtrl', function($scope) {
         $scope.$apply();
     }
 
+    //translate
+    $scope.getText = function(text){
+        return chrome.i18n.getMessage(text);
+    };
 
     //Update functions
     function update(color){

@@ -1,0 +1,17 @@
+{
+    "extDescr": {
+        "message": "This is extension let you to easily find color by it name. Also you can input color value in hex, rgb and hsv."
+    },
+
+    "add_button_text": {
+        "message": "Add to My Colors"
+    },
+
+    "clear_button_text": {
+        "message": "Clear"
+    },
+
+    "search_placeholder_text": {
+        "message": "Search color"
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "extDescr": {
+        "message": "Это расширение с лёгкостью ищет любой оттенок цвета по имени. Кроме того, вы можете ввести данные цвета в rgb, hsv и hex форматах"
+    },
+
+    "add_button_text": {
+        "message": "Добавить к мои цветам"
+    },
+
+    "clear_button_text": {
+        "message": "Очистить"
+    },
+
+    "search_placeholder_text": {
+        "message": "Поиск цвета"
+    }
+}

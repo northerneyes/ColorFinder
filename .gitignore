@@ -1,3 +1,5 @@
 #Ignore IntelliJ files
 *.iml
 .idea
+*.psd
+*.zip

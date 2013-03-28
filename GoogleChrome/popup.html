@@ -9,7 +9,7 @@
 
 <body ng-controller="ColorSpaceCtrl">
     <div id="search-panel">
-        <input autocomplete source="source" id="query" type="search"  ng-model="color.name" placeholder="Search your color" >
+        <input autocomplete source="source" id="query" type="search"  ng-model="color.name" placeholder="{{getText('search_placeholder_text')}}" >
     </div>
 
     <div class="colorspace-values" ng-model="color">
@@ -154,11 +154,11 @@
     </div>
 
     <div class="saved-color-section">
-        <input type="button" value="Add to My Colors" ng-click="addColor()">
+        <input type="button" value="{{getText('add_button_text')}}" ng-click="addColor()">
         <div class="custom_box_container">
                 <div  ng-click="toggleSelect($index)" ng-class="getClass($index)"  ng-style="{backgroundColor:getCustomColors($index)}"   ng-repeat="color in customColors"></div>
         </div>
-        <input type="button" value="Clear" class="clear_button" ng-click="clearCustomColors()">
+        <input type="button" value="{{getText('clear_button_text')}}" class="clear_button" ng-click="clearCustomColors()">
     </div>
 </body>
 
