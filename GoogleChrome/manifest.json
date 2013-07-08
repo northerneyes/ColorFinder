@@ -10,9 +10,7 @@
 		"default_popup": "popup.html"
 	},
 	"options_page": "options.html",
-    "web_accessible_resources": [
-    "ColorDictionary.json"],
-
+    "web_accessible_resources": [ "ColorDictionary.json"],
 	"background": { "scripts": ["js/Colors.js", "jquery/jquery-1.7.1.min.js", "js/background.js"] },
   	"icons": {
     "128": "icon.png"

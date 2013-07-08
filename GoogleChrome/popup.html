@@ -8,8 +8,12 @@
 </head>
 
 <body ng-controller="ColorSpaceCtrl">
+    <div id="tool_bar">
+        <input type="button" value="Popup" id="openPopup"></input>
+    </div>
+
     <div id="search-panel">
-        <input autocomplete source="source" id="query" type="search"  ng-model="color.name" placeholder="{{getText('search_placeholder_text')}}" >
+        <input autocomplete source="source" id="query" type="search"  ng-model="colorName" placeholder="{{getText('search_placeholder_text')}}" ng-change="findColor()" ng-enter="findColor()">
     </div>
 
     <div class="colorspace-values" ng-model="color">
@@ -107,7 +111,7 @@
                                         <tr class="colorspace-row-x">
                                             <td class="colorspace-barrel-x"
                                                 ng-style="{backgroundColor:getBarrelColor(2).HexValue, color:getBarrelTextColor(2)};"
-                                                ">{{getBarrelColor(2).Name}}</td>
+                                                >{{getBarrelColor(2).Name}}</td>
                                         </tr>
                                     </tbody>
                                 </table>

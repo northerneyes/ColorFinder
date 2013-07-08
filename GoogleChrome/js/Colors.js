@@ -32,6 +32,12 @@ var Colors = new function()
         return color;
     };
 
+    this.TryParse = function(str)
+    {
+        var color = new Color();
+        if(color.SetHexString(str))
+            return color;
+    }
 
     function Color()
     {

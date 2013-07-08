@@ -342,3 +342,8 @@ button:active, .button:active, input[type="button"]:active {
 .activeCustomColorBox {
     border: 1px solid #000;
 }
+
+#tool_bar{
+    margin-bottom: 4px;
+    float: right;
+}

@@ -12,9 +12,9 @@ var app = angular.module('ColorSpace', []);
 app.controller('ColorSpaceCtrl', function($scope) {
     $("#query").focus();
 
-    var color =  localStorage["color"] == undefined ? Colors.ColorFromRGB(255,0,0) : Colors.ColorFromHex(localStorage["color"]);
+    var color = localStorage["color"] == undefined ? Colors.ColorFromRGB(255, 0, 0) : Colors.ColorFromHex(localStorage["color"]);
     //$scope.customColors = localStorage["customColors"] == undefined ? createCustomColors() : localStorage["customColors"];
-    $scope.customColors =  createCustomColors();
+    $scope.customColors = createCustomColors();
     var selectedColor;
     var colorValues = [];
     initColorPicker(colorChanged, staticColorChanged, color);
@@ -25,15 +25,15 @@ app.controller('ColorSpaceCtrl', function($scope) {
     $scope.color = update(color);
     $scope.selectedIndex = -1;
 
+
     function createCustomColors() {
-        if( localStorage["customColors"] == undefined)
-        {
-           clearCustomColors();
+        if (localStorage["customColors"] == undefined) {
+            clearCustomColors();
         }
         return JSON.parse(localStorage["customColors"]);
     }
 
-    function clearCustomColors(){
+    function clearCustomColors() {
         var customColors = [];
         for (var i = 0; i < 10; i++) {
             customColors.push("#D8D8D8");
@@ -43,60 +43,54 @@ app.controller('ColorSpaceCtrl', function($scope) {
     }
 
 
-    function checkIndexes(index, lowBound, upBound)
-    {
-        if(index < lowBound)
+    function checkIndexes(index, lowBound, upBound) {
+        if (index < lowBound)
             return upBound + index;
-        else if(index >= upBound)
-            return  index - upBound;
+        else if (index >= upBound)
+            return index - upBound;
         return index;
     }
 
-    function checkSourceIndexes(index)
-    {
+    function checkSourceIndexes(index) {
         return checkIndexes(index, 0, $scope.source.length);
     }
 
-    function updateBarrel(index)
-    {
-        for(var i = -2; i <3; i++)
-        {
+    function updateBarrel(index) {
+        for (var i = -2; i < 3; i++) {
             colorValues[i] = $scope.source[checkSourceIndexes(index + i)];
         }
         selectedColor = colorValues[0];
     }
 
-    $scope.clearCustomColors = function()
-    {
+    $scope.clearCustomColors = function() {
         $scope.customColors = clearCustomColors();
 
     };
 
-    $scope.getCustomColors = function(index)
-    {
+    $scope.getCustomColors = function(index) {
         return $scope.customColors[index];
     };
 
-    $scope.addColor = function(){
+    $scope.addColor = function() {
         $scope.customColors[$scope.selectedIndex] = "#" + $scope.color.hex;
         localStorage["customColors"] = JSON.stringify($scope.customColors);
     };
 
-    $scope.toggleSelect = function(ind){
-        if($scope.customColors[ind] != "#D8D8D8")
+    $scope.toggleSelect = function(ind) {
+        if ($scope.customColors[ind] != "#D8D8D8")
             $scope.color = update(Colors.ColorFromHex($scope.customColors[ind]));
-         $scope.selectedIndex = ind;
+        $scope.selectedIndex = ind;
     };
 
-    $scope.getClass = function(ind){
-        if( ind == $scope.selectedIndex ){
+    $scope.getClass = function(ind) {
+        if (ind == $scope.selectedIndex) {
             return "customColorBox activeCustomColorBox";
-        } else{
+        } else {
             return "customColorBox";
         }
     };
 
-    $scope.onSelect = function( selectedValue ) {
+    $scope.onSelect = function(selectedValue) {
         selectedColor = selectedValue;
         var index = selectedValue.Index;
 
@@ -105,115 +99,123 @@ app.controller('ColorSpaceCtrl', function($scope) {
         $scope.$apply();
     };
 
-    $scope.getBarrelColor = function(index){
+    $scope.getBarrelColor = function(index) {
         return colorValues[index];
     };
 
-    $scope.getBarrelTextColor = function(index){
+    $scope.getBarrelTextColor = function(index) {
         var color = Colors.ColorFromHex(colorValues[index].HexValue);
-        if(color.Y() > 0.5)
+        if (color.Y() > 0.5)
             return "#000000";
         else
             return "#FFFFFF";
     };
 
-    $scope.colorDown = function(){
+    $scope.colorDown = function() {
         var index = selectedColor.Index;
         updateBarrel(++index);
         $scope.color = updateMainColor(Colors.ColorFromHex(selectedColor.HexValue));
     };
 
-    $scope.colorUp= function(){
+    $scope.colorUp = function() {
         var index = selectedColor.Index;
         updateBarrel(--index);
         $scope.color = updateMainColor(Colors.ColorFromHex(selectedColor.HexValue));
     };
 
-    $scope.colorBarrelClick = function(index){
+    $scope.colorBarrelClick = function(index) {
         updateBarrel(selectedColor.Index + index);
         $scope.color = updateMainColor(Colors.ColorFromHex(selectedColor.HexValue));
     };
 
     //Update color values
-    $scope.updateRGB = function(){
-        if(color.SetRGB($scope.color.red,  $scope.color.green,  $scope.color.blue))
-        {
+    $scope.updateRGB = function() {
+        if (color.SetRGB($scope.color.red, $scope.color.green, $scope.color.blue)) {
             $scope.color = update(color);
         }
     };
 
-    $scope.updateHSV = function(){
-        if(color.SetHSV($scope.color.hue, $scope.color.saturation, $scope.color.value))
-        {
+    $scope.updateHSV = function() {
+        if (color.SetHSV($scope.color.hue, $scope.color.saturation, $scope.color.value)) {
             $scope.color = update(color);
         }
 
     };
 
-    $scope.updateHex = function(){
-        if(color.SetHexString($scope.color.hex)){
+    $scope.updateHex = function() {
+        if (color.SetHexString($scope.color.hex)) {
             $scope.color = update(color);
         }
+    };
 
+    $scope.findColor = function(){
+        if($scope.colorName != undefined)
+        {
+           var color = Colors.TryParse($scope.colorName);
+           if(color)
+               $scope.color = update(color); 
+        }
+         
     };
 
 
     //CallBack from colorPicker
-    function colorChanged(changedColor)
-    {
+
+    function colorChanged(changedColor) {
         $scope.color.quickColor = changedColor.HexStringWithPrefix();
         $scope.$apply();
     }
 
-    function staticColorChanged(changedColor)
-    {
+    function staticColorChanged(changedColor) {
         //change static cell
         $scope.color = update(changedColor);
         $scope.$apply();
     }
 
     //translate
-    $scope.getText = function(text){
+    $scope.getText = function(text) {
         return chrome.i18n.getMessage(text);
     };
 
     //Update functions
-    function update(color){
-        selectedColor = findNamedColor(color);
-        updateBarrel(selectedColor.Index);
-       return updateMainColor(color);
+
+    function update(color) {
+       selectedColor = findNamedColor(color);
+       updateBarrel(selectedColor.Index);
+        return updateMainColor(color);
     }
 
-    function updateMainColor(color){
+    function updateMainColor(color) {
         localStorage["color"] = color.HexStringWithPrefix();
 
         setColorPickerMarkers(color);
-        return  {
-            red:color.Red(),
-            blue:color.Blue(),
-            green:color.Green(),
-            hue:color.Hue().toFixed(0),
-            saturation:color.Saturation().toFixed(0),
-            value:color.Value().toFixed(0),
-            hex:color.HexString(),
-            quickColor:color.HexStringWithPrefix(),
-            staticColor:color.HexStringWithPrefix(),
-            pickerColor:Colors.ColorFromHSV(color.Hue(), 100, 100).HexStringWithPrefix()
+        return {
+            red: color.Red(),
+            blue: color.Blue(),
+            green: color.Green(),
+            hue: color.Hue().toFixed(0),
+            saturation: color.Saturation().toFixed(0),
+            value: color.Value().toFixed(0),
+            hex: color.HexString(),
+            quickColor: color.HexStringWithPrefix(),
+            staticColor: color.HexStringWithPrefix(),
+            pickerColor: Colors.ColorFromHSV(color.Hue(), 100, 100).HexStringWithPrefix()
         };
     }
 
-    function findNamedColor(color)
-    {
+    function findNamedColor(color) {
         var namedColors = $scope.source.slice(0);
         var distances = [];
 
-        $.each(namedColors, function (index, namedColor) {
+        $.each(namedColors, function(index, namedColor) {
             var _color = Colors.ColorFromHex(namedColor.HexValue);
             namedColor.distance = color.getDistance(_color)
             distances.push(namedColor.distance);
         });
 
-        namedColors.sort(function(a, b) { return a.distance - b.distance });
+        namedColors.sort(function(a, b) {
+            return a.distance - b.distance
+        });
 
 
         return namedColors[0];
@@ -221,27 +223,43 @@ app.controller('ColorSpaceCtrl', function($scope) {
 
 });
 
+$('#openPopup').click(function() {
+    var day = new Date();
+    var id = day.getTime();
+    window.open('popup.html', id, 'toolbar=0,scrollbars=0,statusbar=0,menubar=0,width=430,height=360');
 
+});
 
+app.directive('ngEnter', function() {
+        return function(scope, element, attrs) {
+            element.bind("keydown keypress", function(event) {
+                if(event.which === 13) {
+                    scope.$apply(function(){
+                        scope.$eval(attrs.ngEnter);
+                    });
 
+                    event.preventDefault();
+                }
+            });
+        };
+    });
 
-app.directive('autocomplete',function(){
-    return{
-        link: function(scope, element, attrs){
+app.directive('autocomplete', function() {
+    return {
+        link: function(scope, element, attrs) {
             $(element).autocomplete({
-                source:
-                    function(request, response){
-                        var results = jQuery.ui.autocomplete.filter(scope.source, request.term);
-                        results = results.sort(function(a, b){
-                            return a.label.toLowerCase().indexOf(request.term.toLowerCase()) - b.label.toLowerCase().indexOf(request.term.toLowerCase());
-                        });
+                source: function(request, response) {
+                    var results = jQuery.ui.autocomplete.filter(scope.source, request.term);
+                    results = results.sort(function(a, b) {
+                        return a.label.toLowerCase().indexOf(request.term.toLowerCase()) - b.label.toLowerCase().indexOf(request.term.toLowerCase());
+                    });
 
-                        results = results.sort(function(a, b){
-                            return (a.label.length < b.label.length) ? -1 : 1;
-                        });
-                        response(results.slice(0, 15));
-                    },
-                select: function (event, ui) {
+                    results = results.sort(function(a, b) {
+                        return (a.label.length < b.label.length) ? -1 : 1;
+                    });
+                    response(results.slice(0, 15));
+                },
+                select: function(event, ui) {
                     console.log(scope);
                     scope.onSelect(ui.item);
                 }
