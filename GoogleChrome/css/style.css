@@ -344,6 +344,21 @@ button:active, .button:active, input[type="button"]:active {
 }
 
 #tool_bar{
-    margin-bottom: 4px;
-    float: right;
+    /*margin-bottom: 4px;*/
+    /*float: right;*/
+}
+
+#langinner{
+    float: left;
+}
+.flag { width: 32px; height: 32px; background: url('flags-32.png') no-repeat top left;  } 
+.flag.ru { background-position: 0px 0px;  } 
+.flag.en { background-position:-32px 0px;  } 
+
+.active-lang{
+    background-color: lightblue;
+}
+.lang{
+    float: left;
+margin: 3px;
 }
