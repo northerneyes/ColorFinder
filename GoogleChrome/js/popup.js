@@ -20,7 +20,7 @@ app.controller('ColorSpaceCtrl', function($scope) {
     initColorPicker(colorChanged, staticColorChanged, color);
 
   
-    $scope.lang = "ru"; //TODO:from settings
+    $scope.lang =  localStorage["lang"] == undefined ? "ru" : localStorage["lang"];
     $scope.source = getColorDictionary();
     $scope.color = update(color);
     $scope.selectedIndex = -1;
@@ -102,9 +102,9 @@ app.controller('ColorSpaceCtrl', function($scope) {
 
     $scope.changeLang = function(lang){
         $scope.lang = lang; 
+        localStorage["lang"] = $scope.lang;
         $scope.source = getColorDictionary();
         $scope.color = update(Colors.ColorFromHex($scope.color.hex));
-        console.log(lang);   
     }
 
     $scope.getClass = function(ind) {
