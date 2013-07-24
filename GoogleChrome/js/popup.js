@@ -19,12 +19,23 @@ app.controller('ColorSpaceCtrl', function($scope) {
     var colorValues = [];
     initColorPicker(colorChanged, staticColorChanged, color);
 
-    $scope.source = chrome.extension.getBackgroundPage().colorDictionary;
-
-
+  
+    $scope.lang = "ru"; //TODO:from settings
+    $scope.source = getColorDictionary();
     $scope.color = update(color);
     $scope.selectedIndex = -1;
 
+
+    function getColorDictionary()
+    {
+        switch($scope.lang)
+        {
+            case 'ru':
+                return  chrome.extension.getBackgroundPage().colorDictionary;
+            case 'en':
+                return chrome.extension.getBackgroundPage().colorDictionaryEn;
+        }
+    }
 
     function createCustomColors() {
         if (localStorage["customColors"] == undefined) {
@@ -81,6 +92,20 @@ app.controller('ColorSpaceCtrl', function($scope) {
             $scope.color = update(Colors.ColorFromHex($scope.customColors[ind]));
         $scope.selectedIndex = ind;
     };
+
+    //Language
+    $scope.getLangClass = function (lang) {
+        if(lang == $scope.lang)
+            return "lang flag " + lang + " active-lang";
+        return "lang flag " + lang;
+    }    
+
+    $scope.changeLang = function(lang){
+        $scope.lang = lang; 
+        $scope.source = getColorDictionary();
+        $scope.color = update(Colors.ColorFromHex($scope.color.hex));
+        console.log(lang);   
+    }
 
     $scope.getClass = function(ind) {
         if (ind == $scope.selectedIndex) {
