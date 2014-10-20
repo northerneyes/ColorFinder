@@ -226,29 +226,25 @@ body{
     height: 52px;
     width: 96px;
     top: 0px;
-    left: 30px;
     overflow: hidden;
     display: inline-block;
+    float: right;
 }
 
 .colorspace-quickcolor{
     position: relative;
     height: 52px;
     width: 48px;
-    top: 0px;
-    left: 0px;
     display: inline-block;
     margin: 0;
+    float:left;
 }
 
 .colorspace-staticcolor{
     position: relative;
     height: 52px;
     width: 48px;
-    top: 0px;
-    left: 0px;
     display: inline-block;
-    margin-left: -3px;
 }
 
 /*Finder Panel*/
